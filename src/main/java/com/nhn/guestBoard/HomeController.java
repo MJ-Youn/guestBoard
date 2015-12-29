@@ -36,4 +36,11 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value="/guestBoard")
+	public String list(Model model) {
+		
+		return "guestBoard";
+		
+	}
+	
 }
