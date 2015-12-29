@@ -21,8 +21,6 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.nhn.guestBoard" />
-	
-	
+	<context:component-scan base-package="com.nhn.guestBoard.controller" />
 	
 </beans:beans>
