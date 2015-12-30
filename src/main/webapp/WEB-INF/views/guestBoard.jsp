@@ -24,7 +24,7 @@
 				</form>
 			</div>
 			<div class="contents_list">
-				<%-- <c:forEach items="${list}" var="dto">
+				<c:forEach items="${list }" var="dto">
 					<div class="contents" id="${dto.IDX }">
 						<form>
 							<p class="email">${dto.EMAIL }</p>
@@ -35,8 +35,8 @@
 							<textarea rows="3" cols="115" class="textarea" placeholder="Enter Contents" readonly>${dto.CONTENT }</textarea>
 						</form>
 					</div>
-				</c:forEach> --%>
-				<div class="contents" id="1">
+				</c:forEach>
+				<!-- <div class="contents" id="1">
 					<form>
 						<p class="email">yun0244@naver.com</p>
 						<input type="password" class="form-control input_form modify_hidden" placeholder="Enter password" />
@@ -45,7 +45,7 @@
 						<p class="time">YYYY-MM-DD HH:MM:SS</p>
 						<textarea rows="3" cols="115" class="textarea" placeholder="Enter Contents" readonly>Hi! I'm MJ.</textarea>
 					</form>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</body>
