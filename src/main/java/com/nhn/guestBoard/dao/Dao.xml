@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.nhn.guestBoard.dat.Dao">
+<mapper namespace="com.nhn.guestBoard.dao.Dao">
 
-	<select id="list" resultType="com.nhn.guestBoard.dao.Dao">
+	<select id="list" resultType="com.nhn.guestBoard.dto.Dto">
 		SELECT IDX, EMAIL, CONTENT, POST_TIME, MODIFY_TIME FROM ARTICLE ORDER BY IDX DESC
 	</select>
 

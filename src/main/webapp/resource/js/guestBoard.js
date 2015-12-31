@@ -1,6 +1,7 @@
 var content;
 
 $(document).ready(function(){
+	
 	$(".modify").click(function() {
 		$(".modify_hidden").toggle("slow");
 		
@@ -18,4 +19,5 @@ $(document).ready(function(){
 			$(this).val('modify');
 		}
 	});
+	
 });
