@@ -19,7 +19,7 @@
 				<form>
 					<input type="email" id="write_email" name="EMAIL" class="form-control input_form" placeholder="Enter email" />
 					<input type="password" id="write_pw" name="PW" class="form-control input_form" placeholder="Enter password" />
-					<input type="submit" class="btn btn-success" formaction="/write" value="Submit" />
+					<input type="submit" class="btn btn-success" formaction="/guestBoard/write" value="Submit" />
 					<textarea rows="3" cols="115" id="write_content" name="CONTENT" class="textarea" placeholder="Enter Contents"></textarea>
 				</form>
 			</div>
@@ -32,7 +32,7 @@
 							<input type="hidden" name="EMAIL" value="${dto.EMAIL }" />
 							<input type="password" name="PW" class="form-control input_form modify_hidden" placeholder="Enter password" />
 							<input type="submit" class="btn btn-success modify_hidden modify_submit" formaction="/modify" value="Submit" />
-							<input type="button" class="btn btn-info btn-xs modify" value="modify" />
+							<input type="button" class="btn btn-info btn-xs modify" id="modify${dto.IDX }" value="modify" />
 							<p class="time">${dto.POST_TIME }</p>
 							<textarea rows="3" cols="115" name="CONTENT" class="textarea" placeholder="Enter Contents" readonly>${dto.CONTENT }</textarea>
 						</form>

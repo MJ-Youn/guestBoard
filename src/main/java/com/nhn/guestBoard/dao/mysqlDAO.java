@@ -4,88 +4,118 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.nhn.guestBoard.dto.Dto;
 
-public class mysqlDAO implements Dao {
+public class mysqlDAO {
 
-	Connection connection;
-	PreparedStatement preparedStatement;
-	ResultSet resultSet;
+	Connection conn = null;
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
 	
 	public mysqlDAO() {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/guestBoard", "root", "root");
+			this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/guestBoard", "root", "root");
+		} catch( Exception e ) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public ArrayList<Dto> list() {
+		
+		ArrayList<Dto> dtos = new ArrayList<Dto>();
+		
+		try {
+			
+			String sql = "SELECT IDX, EMAIL, CONTENT, POST_TIME, EDIT_TIME FROM POSTS;";
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			
+			while ( rs.next() ) {
+				
+				Dto dto = new Dto();
+				dto.setIDX(rs.getInt("IDX"));
+				dto.setEMAIL(rs.getString("EMAIL"));
+				dto.setCONTENT(rs.getString("CONTENT"));
+				dto.setPOST_TIME(rs.getTimestamp("POST_TIME"));
+				
+				if ( rs.getTime("EDIT_TIME") != null ) {
+					dto.setEDIT_TIME(rs.getTimestamp("EDIT_TIME"));
+				} else {
+					dto.setEDIT_TIME(null);
+				}
+				
+				dtos.add(dto);
+			}
+			
+		} catch ( Exception e ) {
+			e.printStackTrace();
+		}
+		
+		return dtos;
+		
+	}
+	
+	public void write(String EMAIL, String PW, String CONTENT) {
+		
+		try {
+			
+			String sql = "INSERT INTO POSTS(EMAIL, PW, CONTENT) VALUE(?, ?, ?);";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, EMAIL);
+			stmt.setString(2, PW);
+			stmt.setString(3, CONTENT);
+			stmt.executeUpdate();
+			
 		} catch ( Exception e ) {
 			e.printStackTrace();
 		}
 		
 	}
 	
-	@Override
-	public ArrayList<Dto> list() {
+	public boolean modify(int IDX, String EMAIL, String PW, String CONTENT) {
+		
+		boolean check = false;
 		
 		try {
-			String sql = "SELECT IDX, EMAIL, CONTENT, POST_TIME, EDIT_TIME FROM ARTICLE";
-			preparedStatement = connection.prepareStatement(sql);
-			resultSet = preparedStatement.executeQuery();
 			
-			while ( resultSet.next() ) {
-				System.out.println(resultSet.getString("EMAIL"));
+			String sql = "SELECT PW FROM POSTS WHERE IDX = ?;";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, IDX);
+			rs = stmt.executeQuery();
+			
+			if ( rs.next() ) {
+				if ( rs.getString("PW").equals(PW) )
+					check = true;
 			}
 			
-		} catch ( SQLException e ) {
+			if ( check ) {
+				sql = "UPDATE POSTS SET CONTENT = ? WHERE IDX = ?;";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, CONTENT);
+				stmt.setInt(2, IDX);
+				stmt.executeUpdate();
+			}
+			
+		} catch ( Exception e ) {
 			e.printStackTrace();
 		}
 		
-		
-		return null;
+		return check;
 		
 	}
 	
-
-	@Override
-	public void write(String EMAIL, String PW, String CONTENT) {
-
-		try {
-			String sql = "INSERT INTO ARTICLE(EMAIL, PW, CONTENT)"
-							+ "VALUES(?, ?, ?)";
-			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, EMAIL);
-			preparedStatement.setString(2, PW);
-			preparedStatement.setString(3, CONTENT);
-			preparedStatement.executeUpdate();
-		} catch ( SQLException e ) {
-			e.printStackTrace();
-		}
+	public void disConnect() {
 		
-	}
-
-	@Override
-	public void modify(int IDX, String EMAIL, String PW, String CONTENT) {
-
 		try {
-			boolean check = false;
-			String sql = "SELECT EMAIL, PW FROM ARTICLE WHERE IDX = " + IDX;
-			preparedStatement = connection.prepareStatement(sql);
-			resultSet = preparedStatement.executeQuery();
-			
-			if ( resultSet.next() ) 
-				if ( resultSet.getString("EMAIL").equals(EMAIL) ) 
-					if ( resultSet.getString("PW").equals(PW) ) 
-						check = true;
-			
-			if ( check ) {
-				sql = "UPDATE ARTICLE SET CONTENT = '" + CONTENT + "' WHERE IDX = " + IDX ;
-				preparedStatement = connection.prepareStatement(sql);
-				preparedStatement.executeUpdate();
-			}
-				
-		} catch ( SQLException e ) {
+			if ( rs != null ) rs.close();
+			if ( stmt != null ) stmt.close();
+			if ( conn != null ) conn.close();
+		} catch ( Exception e ) {
 			e.printStackTrace();
 		}
 		

@@ -3,10 +3,8 @@ var content;
 $(document).ready(function(){
 	
 	$(".modify").click(function() {
-		$(".modify_hidden").toggle("slow");
-		
 		var id = $(this).parent().parent().attr('id');
-		
+		$("#" + id + " .modify_hidden").toggle("slow");
 		
 		if ( $(this).val() === "modify" ) {
 			$("#" + id + " textarea").removeAttr("readonly");
