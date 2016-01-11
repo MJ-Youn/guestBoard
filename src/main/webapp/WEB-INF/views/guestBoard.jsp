@@ -31,7 +31,7 @@
 							<input type="hidden" name="IDX" value="${dto.IDX }" />
 							<input type="hidden" name="EMAIL" value="${dto.EMAIL }" />
 							<input type="password" name="PW" class="form-control input_form modify_hidden" placeholder="Enter password" />
-							<input type="submit" class="btn btn-success modify_hidden modify_submit" formaction="/modify" value="Submit" />
+							<input type="submit" class="btn btn-success modify_hidden modify_submit" formaction="/guestBoard/modify" value="Submit" />
 							<input type="button" class="btn btn-info btn-xs modify" id="modify${dto.IDX }" value="modify" />
 							<p class="time">${dto.POST_TIME }</p>
 							<textarea rows="3" cols="115" name="CONTENT" class="textarea" placeholder="Enter Contents" readonly>${dto.CONTENT }</textarea>

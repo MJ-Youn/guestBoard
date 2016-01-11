@@ -52,7 +52,7 @@ public class HomeController {
 		if ( check ) {
 			return "redirect:/";
 		} else {
-			return "";
+			return "modifyFail";
 		}
 		
 	}
